@@ -3,7 +3,9 @@ import time
 import xml
 from urllib import request
 from urllib.error import URLError
-from xml.etree.ElementTree import ElementTree
+from xml.etree.ElementTree import ElementTree, tostring, fromstring, Element
+from xml.dom import minidom
+from urllib.request import urlopen
 
 import feedparser
 
@@ -13,6 +15,7 @@ class NewsCollector(object):
         self.parser = configparser.ConfigParser()
         self.parser.read("../config.ini")
 
+    # TODO: return tuple of (url, name) pairs
     def get_rss_urls(self):
         rss_list = []
         items = []
@@ -31,17 +34,28 @@ class NewsCollector(object):
                 entries.append(entry)
         return entries
 
-    def create_xml(self):
-        # TODO: create xml files from @urlopen
-        for url in self.get_rss_urls():
-            try:
-                urlopen = request.urlopen(url)
-                parse = ElementTree().parse(urlopen)
-                print(parse.tag)
-            except URLError:
-                pass
+    def create_element_tree(self):
+        try:
+            for url in self.get_rss_urls():
+                resource = request.urlopen(url)
+                element = fromstring(resource.read())
+                with open("../resources/rss/" + str(element) + ".xml", 'w+') as file:
+                    root = Element("news")
+                    tree = ElementTree(root)
+                    print(tree.getroot())
+                    for a in element:
+                        for b in a:
+                            new = Element("news_item")
+                            for c in b:
+                                if c.tag == "title" or c.tag == "description" or c.tag == "pubDate":
+                                    new.append(c)
+                                root.append(new)
+                    # tree.write(file, encoding="unicode")
+        except URLError as e:
+            print(e)
 
 
 if __name__ == '__main__':
     nc = NewsCollector()
-    nc.create_xml()
+    nc.create_element_tree()
+    # nc.create_xml()
