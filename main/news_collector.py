@@ -21,42 +21,31 @@ class NewsCollector(object):
                 rss_list.append((section, item[num][0], item[default_size][1] + item[num][1]))
         return rss_list
 
-    def create_element_tree(self):
-        try:
-            print(self.get_rss_urls())
-            for url in self.get_rss_urls():
-                print(url)
-                resource = request.urlopen(url[2])
-                element = fromstring(resource.read())
-                print(url[0])
-                if not os.path.exists("../resources/rss/" + url[0]):
-                    os.mkdir("../resources/rss/" + url[0])
-                with open("../resources/rss/" + url[0] + "/" + url[1] + ".xml", 'w+') as file:
-                    root = Element("news")
-                    tree = ElementTree(root)
-                    for a in element:
-                        for b in a:
-                            new = Element("news:item")
-                            for c in b:
-                                if c.tag == "title" or c.tag == "description" or c.tag == "pubDate":
-                                    new.append(c)
-                                root.append(new)
-                    tree.write(file, encoding="unicode")
-        except URLError as e:
-            print(e)
-
     def fuckin_tree(self):
         for rss in self.get_rss_urls():
-            resource = request.urlopen(rss[2])
-            element = fromstring(resource.read())
-            # if not os.path.exists("../resources/rss/" + rss[0]):
-            #     os.makedirs("../resources/rss/" + rss[0])
-            # with open("../resources/rss/" + rss[0] + "/" + rss[1] + ".xml", 'w+') as file:
-            feed = element.findall(".//item/")
-            news = Element("news")
-            news_item = SubElement(news, "news:item")
-            title = feed.(".//title")
-            print(title)
+            header = {
+                'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36"}
+            req = request.Request(url=rss[2], headers=header)
+            result = request.urlopen(req)
+            element = fromstring(result.read())
+            if not os.path.exists("../resources/rss/" + rss[0]):
+                os.makedirs("../resources/rss/" + rss[0])
+            with open("../resources/rss/" + rss[0] + "/" + rss[1] + ".xml", 'w+') as file:
+                print("../resources/rss/" + rss[0] + "/" + rss[1] + ".xml")
+                root = Element("news")
+                tree = ElementTree.ElementTree(root)
+                for item in element.findall(".//item"):
+                    new = Element("item")
+                    for tag in item:
+                        if tag.tag == "title" or tag.tag == "description" or tag.tag == "pubDate":
+                            new.append(tag)
+                    root.append(new)
+                tree.write(file, encoding="unicode")
+
+    # def tuher(self):
+    #     with open("../resources/rss/TN/la viola.xml", "r") as file:
+    #         xml_parsed = ElementTree.ElementTree().parse(file, parser=None)
+    #     print(xml_parsed)
 
 
 if __name__ == '__main__':
@@ -64,3 +53,4 @@ if __name__ == '__main__':
     # nc.create_element_tree()
     # nc.get_rss_urls()
     nc.fuckin_tree()
+    # nc.tuher()
