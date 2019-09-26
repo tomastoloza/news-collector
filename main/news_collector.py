@@ -43,6 +43,7 @@ class NewsCollector(object):
                         if tag.tag == "title" or tag.tag == "description" or tag.tag == "pubDate":
                             new.append(tag)
                     root.append(new)
+                    # TODO : Resolver el tema de que parsee los archivos si existen, y una vez generado el objeto buscar 'new' en xml_parsed, si no esta, agregarlo, y volver a escribir el archivo
                 try:
                     xml_parsed = fromstring((path + "/" + rss[1] + ".xml"))
                     print(xml_parsed)
