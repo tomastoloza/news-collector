@@ -21,46 +21,54 @@ class NewsCollector(object):
                 rss_list.append((section, item[num][0], item[default_size][1] + item[num][1]))
         return rss_list
 
-    def fuckin_tree(self):
+    def save_rss_from_url(self):
         for rss in self.get_rss_urls():
             header = {
                 'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36"}
             req = request.Request(url=rss[2], headers=header)
             result = request.urlopen(req)
+            path = "../resources/temp/rss/" + rss[0]
             element = fromstring(result.read())
-            path = "../resources/rss/" + rss[0]
-
-            print(rss[2])
             root = Element("news")
             tree = ElementTree(root)
+            print(rss[2])
+            for item in element.findall(".//item"):
+                new = Element("item")
+                for tag in item:
+                    if tag.tag == "title" or tag.tag == "description" or tag.tag == "pubDate":
+                        new.append(tag)
+                root.append(new)
             if not os.path.exists(path):
                 os.makedirs(path)
             with open(path + "/" + rss[1] + ".xml", 'w+') as file:
-                read = file.read()
-                for item in element.findall(".//item"):
-                    new = Element("item")
-                    for tag in item:
-                        if tag.tag == "title" or tag.tag == "description" or tag.tag == "pubDate":
-                            new.append(tag)
-                    root.append(new)
-                    # TODO : Resolver el tema de que parsee los archivos si existen, y una vez generado el objeto buscar 'new' en xml_parsed, si no esta, agregarlo, y volver a escribir el archivo
-                try:
-                    xml_parsed = fromstring((path + "/" + rss[1] + ".xml"))
-                    print(xml_parsed)
-                except ET.ParseError as e:
-                    print(e)
-                finally:
-                    tree.write(file, encoding="unicode", xml_declaration=True)
+                tree.write(file, encoding="unicode", xml_declaration=False)
 
-    def tuher(self):
-        with open("../resources/rss/TN/la viola.xml", "r") as file:
-            xml_parsed = ElementTree().parse(file, parser=None)
-            print(xml_parsed[0][0].text)
+    def read_and_compare(self):
+        for rss in self.get_rss_urls():
+            path = "../resources/rss/" + rss[0]
+            path_temp = "../resources/temp/rss/" + rss[0]
+            with open(path_temp + "/" + rss[1] + ".xml", 'r') as file:
+                if file.read() != '':
+                    try:
+                        xml_parsed = ET.parse(path_temp + "/" + rss[1] + ".xml")
+                        for item_element in xml_parsed.getroot():
+                            for x in item_element:
+                                if x.tag == 'title':
+                                    print(x.text)
+                    except ET.ParseError as e:
+                        e.with_traceback()
+                else:
+                    xml_parsed
+                if not os.path.exists(path):
+                    os.makedirs(path)
+                with open(path + "/" + rss[1] + ".xml", 'w+') as file_read:
+                    xml_parsed.write(file_read, encoding='unicode')
 
 
 if __name__ == '__main__':
     nc = NewsCollector()
     # nc.create_element_tree()
     # nc.get_rss_urls()
-    nc.fuckin_tree()
-    # nc.tuher()
+    # nc.fuckin_tree()
+    # nc.save_rss_from_url()
+    nc.read_and_compare()
