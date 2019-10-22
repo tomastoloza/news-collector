@@ -61,9 +61,5 @@ class NewsCollector(object):
 
 if __name__ == '__main__':
     nc = NewsCollector()
-    # nc.create_element_tree()
-    # nc.get_rss_urls()
-    # nc.fuckin_tree()
-    # nc.save_rss_from_url()
-    # nc.read_and_compare()
     nc.get_and_compare()
+
