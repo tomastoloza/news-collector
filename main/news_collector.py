@@ -31,10 +31,12 @@ class NewsCollector(object):
             element = fromstring(result.read())
             try:
                 xml_parsed = ET.parse(file_name)
+                open(file_name, 'w+')
             except FileNotFoundError:
                 root = Element("news")
                 xml_parsed = ElementTree(root)
-                os.makedirs("../resources/rss/" + rss[0])
+                if not os.path.isdir('../resources/rss/' + rss[0]):
+                    os.makedirs("../resources/rss/" + rss[0])
                 open(file_name, 'w+')
 
             for item in element.findall(".//item"):
