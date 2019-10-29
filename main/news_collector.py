@@ -31,7 +31,6 @@ class NewsCollector(object):
             element = fromstring(result.read())
             try:
                 xml_parsed = ET.parse(file_name)
-                open(file_name, 'w+')
             except FileNotFoundError:
                 root = Element("news")
                 xml_parsed = ElementTree(root)
@@ -64,4 +63,3 @@ class NewsCollector(object):
 if __name__ == '__main__':
     nc = NewsCollector()
     nc.get_and_compare()
-

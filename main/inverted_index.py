@@ -4,20 +4,6 @@ import string
 from xml.etree.ElementTree import ElementTree, fromstring, Element
 from nltk.stem import SnowballStemmer, LancasterStemmer
 
-
-def create_inverted_index(files):
-    index = {}
-    for file_name in files:
-        with open("resources/" + file_name, 'r') as file:
-            file = file.read()
-            for word in file.split():
-                word = acondicionar_palabra(word)
-                if word not in _STOP_WORDS and len(word) > 3:
-                    index.setdefault(word, set())
-                    index[word].add(file_name)
-    return index
-
-
 _STOP_WORDS = frozenset(['de', 'la', 'que', 'el', 'en', 'y', 'a', 'los',
                          'del', 'se', 'las', 'por', 'un', 'para', 'con', 'no', 'una', 'su', 'al', 'es', 'lo', 'como',
                          'más', 'pero', 'sus', 'le', 'ya', 'o', 'fue', 'este', 'ha', 'sí', 'porque', 'esta', 'son',
@@ -60,7 +46,7 @@ def acondicionar_palabra(pal):
     replace = (("á", "a"), ("é", "e"), ("ó", "o"), ("ú", "u"))
     pal = pal.lower()
     pal = pal.strip()
-    pal = pal.strip(string.punctuation + "»" + "\x97" + "¿" + "¡"+"”"+"“")
+    pal = pal.strip(string.punctuation + "»" + "\x97" + "¿" + "¡" + "”" + "“")
     for a, b in replace:
         pal = pal.replace(a, b)
     return pal
@@ -99,28 +85,30 @@ def get_file_names():
     return file_names
 
 
-def get_text():
+def create_index():
     index = {}
     for file_name in get_file_names():
-        print(file_name)
         file = open(file_name, 'r').read()
         file_text = fromstring(file)
         for item in file_text:
             title = item[0]
             try:
                 sandwich = item[1].text + ' ' + item[0].text
-            except:
+            except IndexError:
                 sandwich = item[0].text
+            except TypeError:
+                pass
             for word in sandwich.split():
                 word = acondicionar_palabra(word)
                 if word not in _STOP_WORDS and len(word) > 3:
                     index.setdefault(word, set())
-                    index[word].add(title.text)
-        print(index)
+                    index[word].add(file_name)
+    return index
 
 
 if __name__ == '__main__':
-    get_text()
-# b = create_inverted_index(files)
-# print(b['bombadil'])
-# consultar(b)
+    index = create_index()
+    consultar(index)
+    # b = create_inverted_index(files)
+    # print(b['bombadil'])
+    # consultar(b)
