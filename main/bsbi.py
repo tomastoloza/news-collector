@@ -1,5 +1,6 @@
 import os
 import string
+import csv
 from xml.etree.ElementTree import fromstring
 
 
@@ -76,7 +77,7 @@ def create_index():
     counter_term_id = 0
     counter_doc_id = 0
     for file_name in get_file_names():
-        file = open(file_name, 'r').read()
+        file = open(file_name, 'r', encoding="utf-8").read()
         file_text = fromstring(file)
         for item in file_text:
             title = item[0]
@@ -90,11 +91,12 @@ def create_index():
                 pass
 
             regex = re.search('\/(.+)\/(.+)\/(.+)', file_name)
-            strip = title.text
-            strip = strip.strip()
-            strip = strip.replace('\n', ' ')
-            doc_id_dict.setdefault(counter_doc_id, '')
-            doc_id_dict[counter_doc_id] = regex.group(2) + '-' + regex.group(3)[:-4] + '-' + strip + '-' + pub_date
+            if title.text != None:
+                strip = title.text
+                strip = strip.strip()
+                strip = strip.replace('\n', ' ')
+                doc_id_dict.setdefault(counter_doc_id, '')
+                doc_id_dict[counter_doc_id] = regex.group(2) + '-' + regex.group(3)[:-4] + '-' + strip + '-' + pub_date
 
             for word in sandwich.split():
                 word = acondicionar_palabra(word)
@@ -108,10 +110,29 @@ def create_index():
                         inverted_id_dict[counter_doc_id].add(counter_term_id)
                         counter_term_id += 1
                     else:
+                        word_id = 0
+                        for x in term_id_dict:
+                            if term_id_dict[x] == word:
+                                word_id = x
                         inverted_id_dict.setdefault(counter_doc_id, set())
-                        inverted_id_dict[counter_doc_id].add(counter_term_id)
-
+                        inverted_id_dict[counter_doc_id].add(word_id)
             counter_doc_id += 1
+    with open("term_id_dict.csv", "w+", newline='', encoding="utf-8") as file:
+        writer = csv.writer(file)
+        for x in term_id_dict:
+            list = [str(x), term_id_dict[x]]
+            writer.writerow(list)
+    with open("doc_id_dict.csv", "w+", newline='', encoding="utf-8") as file:
+        writer = csv.writer(file)
+        for x in doc_id_dict:
+            list = [str(x), doc_id_dict[x]]
+            writer.writerow(list)
+    with open("inverted_index.csv", "w+", newline='', encoding="utf-8") as file:
+        writer = csv.writer(file)
+        for x in inverted_id_dict:
+            list = [str(x), inverted_id_dict[x]]
+            writer.writerow(list)
+
     return inverted_id_dict
 
 
