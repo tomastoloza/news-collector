@@ -20,32 +20,31 @@ class NewsCollector(object):
                 rss_list.append((section, item[num][0], item[default_size][1] + item[num][1]))
         return rss_list
 
-    def get_and_compare(self):
-        for rss in self.get_rss_urls():
-            print(rss)
-            file_name = "../resources/rss/" + rss[0] + "/" + rss[1] + ".xml"
-            header = {
-                'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36"}
-            req = request.Request(url=rss[2], headers=header)
-            result = request.urlopen(req)
-            element = fromstring(result.read())
-            try:
-                xml_parsed = ET.parse(file_name)
-            except FileNotFoundError:
-                root = Element("news")
-                xml_parsed = ElementTree(root)
-                if not os.path.isdir('../resources/rss/' + rss[0]):
-                    os.makedirs("../resources/rss/" + rss[0])
-                open(file_name, 'w+')
+    def collect_news(self, rss):
+        print(rss)
+        file_name = "../resources/rss/" + rss[0] + "/" + rss[1] + ".xml"
+        header = {
+            'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36"}
+        req = request.Request(url=rss[2], headers=header)
+        result = request.urlopen(req)
+        element = fromstring(result.read())
+        try:
+            xml_parsed = ET.parse(file_name)
+        except FileNotFoundError:
+            root = Element("news")
+            xml_parsed = ElementTree(root)
+            if not os.path.isdir('../resources/rss/' + rss[0]):
+                os.makedirs("../resources/rss/" + rss[0])
+            open(file_name, 'w+')
 
-            for item in element.findall(".//item"):
-                news_item = Element("item")
-                for tag in item:
-                    if tag.tag == "title" or tag.tag == "description" or tag.tag == "pubDate":
-                        news_item.append(tag)
-                if not self.find_item(news_item, file_name):
-                    xml_parsed.getroot().append(news_item)
-            xml_parsed.write(file_name, encoding='UTF-8')
+        for item in element.findall(".//item"):
+            news_item = Element("item")
+            for tag in item:
+                if tag.tag == "title" or tag.tag == "description" or tag.tag == "pubDate":
+                    news_item.append(tag)
+            if not self.find_item(news_item, file_name):
+                xml_parsed.getroot().append(news_item)
+        xml_parsed.write(file_name, encoding='UTF-8')
 
     def find_item(self, item, file_name):
         try:
@@ -59,7 +58,14 @@ class NewsCollector(object):
         except ET.ParseError as e:
             e.with_traceback()
 
+    def iterate_rss(self):
+        for rss in self.get_rss_urls():
+            try:
+                self.collect_news(rss)
+            except Exception as e:
+                print('Oops! Something out of reach happened: ' + e)
+
 
 if __name__ == '__main__':
     nc = NewsCollector()
-    nc.get_and_compare()
+    nc.iterate_rss()

@@ -1,8 +1,9 @@
 import functools
 import os
+import re
 import string
 from xml.etree.ElementTree import ElementTree, fromstring, Element
-from nltk.stem import SnowballStemmer, LancasterStemmer
+from bs4 import BeautifulSoup
 
 _STOP_WORDS = frozenset(['de', 'la', 'que', 'el', 'en', 'y', 'a', 'los',
                          'del', 'se', 'las', 'por', 'un', 'para', 'con', 'no', 'una', 'su', 'al', 'es', 'lo', 'como',
@@ -46,7 +47,7 @@ def acondicionar_palabra(pal):
     replace = (("á", "a"), ("é", "e"), ("ó", "o"), ("ú", "u"))
     pal = pal.lower()
     pal = pal.strip()
-    pal = pal.strip(string.punctuation + "»" + "\x97" + "¿" + "¡" + "”" + "“")
+    pal = pal.strip(string.punctuation + "»" + "\x97" + "¿" + "¡" + "”" + "“" + "'&quot" + 'br/>')
     for a, b in replace:
         pal = pal.replace(a, b)
     return pal
@@ -85,30 +86,41 @@ def get_file_names():
     return file_names
 
 
-def create_index():
-    index = {}
-    for file_name in get_file_names():
-        file = open(file_name, 'r').read()
-        file_text = fromstring(file)
-        for item in file_text:
-            title = item[0]
-            try:
-                sandwich = item[1].text + ' ' + item[0].text
-            except IndexError:
-                sandwich = item[0].text
-            except TypeError:
-                pass
-            for word in sandwich.split():
-                word = acondicionar_palabra(word)
-                if word not in _STOP_WORDS and len(word) > 3:
-                    index.setdefault(word, set())
-                    index[word].add(file_name)
-    return index
+def is_able_to_add(word):
+    word = BeautifulSoup(word, 'lxml').text
+    if word not in _STOP_WORDS and len(word) > 3:
+        return word
+
+
+def get_dict():
+    term_id_dict = {}
+    doc_id_dict = {}
+    term_id_counter = 0
+    doc_id_counter = 0
+    for fn in get_file_names():
+        with open(fn, 'r') as file:
+            read = fromstring(file.read())
+            for item in read.findall('item'):
+                try:
+                    text = item.find('title').text + " " + item.find('description').text
+                except TypeError:
+                    pass
+                except AttributeError:
+                    pass
+                for word in text.split():
+                    acondicionar_palabra(word)
+                    if word not in _STOP_WORDS and len(word) > 3:
+                        term_id_dict.setdefault(word, 0)
+                        term_id_dict[word] = term_id_counter
+                        term_id_counter += 1
 
 
 if __name__ == '__main__':
-    index = create_index()
-    consultar(index)
+    index = get_dict()
+    # res = [x for x in index]
+    # bsbi = functools.reduce(lambda x, y: x + y, res)
+    # print(bsbi)
+    # consultar(index)
     # b = create_inverted_index(files)
-    # print(b['bombadil'])
     # consultar(b)
+    print(index)

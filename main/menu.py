@@ -1,5 +1,3 @@
-import news_collector
-from inverted_index import consultar, create_index
 
 if __name__ == '__main__':
     print('Bienvenido al recolector de noticias')
@@ -12,7 +10,7 @@ if __name__ == '__main__':
               '4. Realizar busquedas')
         user_input = input()
         if user_input == 1:
-            NewsCollector().get_and_compare()
+            NewsCollector().collect_news()
         if user_input == 2:
             pass
         if user_input == 3:
