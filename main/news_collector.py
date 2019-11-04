@@ -63,7 +63,7 @@ class NewsCollector(object):
             try:
                 self.collect_news(rss)
             except Exception as e:
-                print('Oops! Something out of reach happened: ' + e)
+                print('Oops! Something out of reach happened: ' + str(e))
 
 
 if __name__ == '__main__':

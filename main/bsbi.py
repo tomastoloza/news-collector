@@ -1,9 +1,14 @@
 import os
+import re
 import string
 import csv
 from xml.etree.ElementTree import fromstring
+from nltk.stem import SnowballStemmer
 
+import unidecode as unidecode
+from bs4 import BeautifulSoup
 
+stemmer = SnowballStemmer('spanish')
 def get_doc_id():
     pass
 
@@ -58,15 +63,15 @@ _STOP_WORDS = frozenset(['de', 'la', 'que', 'el', 'en', 'y', 'a', 'los',
                          'tuviese', 'tuvieses', 'tuviésemos', 'tuvieseis', 'tuviesen', 'teniendo', 'tenido', 'tenida',
                          'tenidos', 'tenidas', 'tened', ''])
 
-
 def acondicionar_palabra(pal):
-    replace = (("á", "a"), ("é", "e"), ("í", "i"), ("ó", "o"), ("ú", "u"))
-    pal = pal.lower()
-    pal = pal.strip()
-    pal = pal.strip(string.punctuation + "»" + "\x97" + "¿" + "¡" + "”" + "“" + "'&quot" + 'br/>' + "\"")
-    for a, b in replace:
-        pal = pal.replace(a, b)
-    return pal
+    if not re.compile(r'\w+=.+').match(pal) and not re.compile(r'<[^>]+>').match(pal) and not re.compile(r'\d+').search(pal):
+        if pal not in _STOP_WORDS and len(pal) > 3:
+            print(pal)
+            pal = unidecode.unidecode(pal)
+            pal = pal.lower()
+            pal = pal.strip(string.punctuation)
+            pal = stemmer.stem(pal)
+            return pal
 
 
 def create_index():
@@ -81,12 +86,12 @@ def create_index():
         file_text = fromstring(file)
         for item in file_text:
             title = item[0]
-            pub_date = 'sin fecha'
             try:
                 sandwich = item[1].text + ' ' + item[0].text
                 pub_date = item[1].text
             except IndexError:
                 sandwich = item[0].text
+                pub_date = 'sin fecha'
             except TypeError:
                 pass
 
@@ -100,22 +105,20 @@ def create_index():
 
             for word in sandwich.split():
                 word = acondicionar_palabra(word)
-                # TODO: metodo
-                if word.count('href=') == 0 and word.count('src=') == 0 and word.count('alt=') == 0 and not bool(
-                        re.search(r'\d', word)) and word not in _STOP_WORDS and len(word) > 3:
-                    if word not in term_id_dict.values():
-                        term_id_dict.setdefault(counter_term_id, '')
-                        term_id_dict[counter_term_id] = word
-                        inverted_id_dict.setdefault(counter_doc_id, set())
-                        inverted_id_dict[counter_doc_id].add(counter_term_id)
-                        counter_term_id += 1
-                    else:
-                        word_id = 0
-                        for x in term_id_dict:
-                            if term_id_dict[x] == word:
-                                word_id = x
-                        inverted_id_dict.setdefault(counter_doc_id, set())
-                        inverted_id_dict[counter_doc_id].add(word_id)
+                if word not in term_id_dict.values():
+                    term_id_dict.setdefault(counter_term_id, '')
+                    term_id_dict[counter_term_id] = word
+                    inverted_id_dict.setdefault(counter_doc_id, set())
+                    inverted_id_dict[counter_doc_id].add(counter_term_id)
+                    counter_term_id += 1
+                else:
+                    word_id = 0
+                    for x in term_id_dict:
+                        if term_id_dict[x] == word:
+                            word_id = x
+                    inverted_id_dict.setdefault(counter_doc_id, set())
+                    inverted_id_dict[counter_doc_id].add(word_id)
+                print(word)
             counter_doc_id += 1
     with open("term_id_dict.csv", "w+", newline='', encoding="utf-8") as file:
         writer = csv.writer(file)
@@ -137,5 +140,9 @@ def create_index():
 
 
 if __name__ == '__main__':
-    b = create_index()
+    pal = 'Abecedario aproximarse peras pera manzanas manzana proximamente estar estoy href="falopa" aproximación j\'mena <html> <tag/> </html> "tomando falopa" this have a numb3r 30123 12'
+    b = []
+    for word in pal.split():
+        if word is not None:
+            b.append(acondicionar_palabra(word))
     print(b)
