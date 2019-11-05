@@ -9,6 +9,8 @@ import unidecode as unidecode
 from bs4 import BeautifulSoup
 
 stemmer = SnowballStemmer('spanish')
+
+
 def get_doc_id():
     pass
 
@@ -63,14 +65,16 @@ _STOP_WORDS = frozenset(['de', 'la', 'que', 'el', 'en', 'y', 'a', 'los',
                          'tuviese', 'tuvieses', 'tuviésemos', 'tuvieseis', 'tuviesen', 'teniendo', 'tenido', 'tenida',
                          'tenidos', 'tenidas', 'tened', ''])
 
+
 def acondicionar_palabra(pal):
-    if not re.compile(r'\w+=.+').match(pal) and not re.compile(r'<[^>]+>').match(pal) and not re.compile(r'\d+').search(pal):
-        if pal not in _STOP_WORDS and len(pal) > 3:
-            print(pal)
-            pal = unidecode.unidecode(pal)
-            pal = pal.lower()
-            pal = pal.strip(string.punctuation)
-            pal = stemmer.stem(pal)
+    """Should be used within a not None verifier"""
+    if not re.compile(r'\w+=.+').match(pal) and not re.compile(r'<[^>]+>').match(pal) \
+            and not re.compile(r'\d+').search(pal) and pal not in _STOP_WORDS:
+        pal = unidecode(pal)
+        pal = pal.lower()
+        pal = pal.strip(string.punctuation)
+        pal = stemmer.stem(pal)
+        if len(pal) > 3:
             return pal
 
 
@@ -106,11 +110,12 @@ def create_index():
             for word in sandwich.split():
                 word = acondicionar_palabra(word)
                 if word not in term_id_dict.values():
-                    term_id_dict.setdefault(counter_term_id, '')
-                    term_id_dict[counter_term_id] = word
-                    inverted_id_dict.setdefault(counter_doc_id, set())
-                    inverted_id_dict[counter_doc_id].add(counter_term_id)
-                    counter_term_id += 1
+                    if word is not None:
+                        term_id_dict.setdefault(counter_term_id, '')
+                        term_id_dict[counter_term_id] = word
+                        inverted_id_dict.setdefault(counter_doc_id, set())
+                        inverted_id_dict[counter_doc_id].add(counter_term_id)
+                        counter_term_id += 1
                 else:
                     word_id = 0
                     for x in term_id_dict:
