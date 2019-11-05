@@ -14,7 +14,10 @@ class Menu(object):
             menu = 'Seleccione: \n1. Recolectar noticias\n2. Crear indice invertido\n3. Comprimir lista de apariciones\n4. Realizar busquedas\n'
             user_input = input(menu)
             if user_input == '1':
-                NewsCollector().iterate_rss()
+                rss = NewsCollector().iterate_rss()
+                print('\nLos siguientes diarios fallaron:\n')
+                for item in rss:
+                    print('Diario: {} Sección: {} URL: {}\n'.format(item[0][0], item[0][1], item[1]))
             if user_input == '2':
                 menu = 'Seleccione:\n1. Crear un índice invertido a partir de la estructura de directorio y archivos xml\n2. Guardar en disco todo el índice invertido.\n3. Cargar en memoria un índice invertido previamente salvado.\n'
                 user_input = input(menu)
@@ -46,3 +49,8 @@ class Menu(object):
                     print('La palabra ' + result[0] + ' apareció en los documentos: ' + result[1])
                 else:
                     print('La palabra ' + result[0] + ' no tuvo apariciones')
+
+
+if __name__ == '__main__':
+    menu = Menu()
+    menu.run_menu()

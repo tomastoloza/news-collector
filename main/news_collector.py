@@ -21,7 +21,7 @@ class NewsCollector(object):
         return rss_list
 
     def collect_news(self, rss):
-        print(rss)
+        print('Diario: {} Sección: {} URL: {}'.format(rss[0], rss[1], rss[2]))
         file_name = "../resources/rss/" + rss[0] + "/" + rss[1] + ".xml"
         header = {
             'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36"}
@@ -59,11 +59,14 @@ class NewsCollector(object):
             e.with_traceback()
 
     def iterate_rss(self):
+        failed_rss = []
         for rss in self.get_rss_urls():
             try:
                 self.collect_news(rss)
             except Exception as e:
                 print('Oops! Something out of reach happened: ' + str(e))
+                failed_rss.append((rss, str(e)))
+        return failed_rss
 
 
 if __name__ == '__main__':
