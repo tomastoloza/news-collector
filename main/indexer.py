@@ -10,9 +10,6 @@ from unidecode import unidecode
 from nltk.stem import SnowballStemmer
 
 
-
-
-
 class Indexer(object):
 
     def __init__(self):
@@ -118,11 +115,12 @@ class Indexer(object):
                 block = self.parse_next_block(diario)
             except Exception as e:
                 print(str(e))
-            inverted_block = bsbi_invert(block)
-            blockname = write_block_to_disk(inverted_block, n)
+            inverted_block = self.bsbi_invert(block)
+            blockname = self.write_block_to_disk(inverted_block, n)
             blocks.append(blockname)
             n += 1
-        merge_blocks(blocks, name)
+        self.merge_blocks(blocks, name)
+        self.save_dictionaries()
 
     def parse_next_block(self, sections):
         """Iteracion por Secciones"""
@@ -130,23 +128,28 @@ class Indexer(object):
         docID = len(self.doc_docID_dic)
         termID = len(self.term_termID_dic)
         for section in sections[1]:
+
             path = sections[0] + '/' + section
             print(path)
             with open(path, 'r', encoding="utf-8") as open_file:
                 temp_not_inverted_dic.setdefault(docID, [])
-                if section not in self.doc_docID_dic.values():
-                    self.doc_docID_dic[docID] = section
-
                 xml_parsed = fromstring(open_file.read())
                 for item in xml_parsed:
                     try:
-                        words = item[1].text + ' ' + item[0].text
-                        pub_date = item[1].text
+                        words = item.find('title').text + item.find('description').text
+                        pub_date = item.find('pubDate').text
                     except IndexError:
-                        words = item[0].text
+                        words = item.find('title')
                         pub_date = 'sin fecha'
                     except TypeError:
                         pass
+                    print(section)
+                    medio = re.search('/(.+)/(.+)/(.+)', section).group(3)
+                    section = re.search(r'(.+)\.xml', section).group(1)
+                    section = medio + '-' + section + '-' + words + '-' + pub_date
+
+                    if section not in self.doc_docID_dic.values():
+                        self.doc_docID_dic[docID] = section
                     for word in words.split():
                         word = self.acondicionar_palabra(word)
                         if word is not None:
@@ -162,53 +165,71 @@ class Indexer(object):
             docID = len(self.doc_docID_dic)
         return temp_not_inverted_dic
 
+    def bsbi_invert(self, block):
+        inverted_dic = {}
+        for x in block:
+            for y in block[x]:
+                inverted_dic.setdefault(y, [])
+                inverted_dic[y].append(x)
+        return inverted_dic
 
-def bsbi_invert(block):
-    inverted_dic = {}
-    for x in block:
-        for y in block[x]:
-            inverted_dic.setdefault(y, [])
-            inverted_dic[y].append(x)
-    return inverted_dic
+    def write_block_to_disk(self, block, n):
+        filename = str(n) + '.csv'
+        with open(filename, 'w+', encoding='UTF-8', newline='') as open_file:
+            writer = csv.writer(open_file)
+            for x in sorted(block.keys()):
+                fila_a_escribir = []
+                fila_a_escribir.append(x)
+                for b in block[x]:
+                    fila_a_escribir.append(b)
+                writer.writerow(fila_a_escribir)
+        return filename
 
+    def merge_blocks(self, blocks, name):
+        inverted_dic = {}
+        files = [open(file, 'r', encoding='UTF-8') for file in blocks]
+        readers = [csv.reader(open_file) for open_file in files]
+        line_processed_per_file = [1] * (len(blocks))
+        next_line_to_process = [2] * (len(blocks))
+        still_processing = True
+        while still_processing:
+            still_processing = False
+            for reader in readers:
+                for row in reader:
+                    actual_index = readers.index(reader)
+                    if line_processed_per_file[actual_index] <= reader.line_num < next_line_to_process[actual_index]:
+                        inverted_dic.setdefault(int(row[0]), [])
+                        for num in range(1, len(row)):
+                            if int(row[num]) not in inverted_dic[int(row[0])]:
+                                inverted_dic[int(row[0])].append(int(row[num]))
+                        line_processed_per_file[actual_index] += 1
+                        next_line_to_process[actual_index] += 1
+                        still_processing = True
+        self.write_block_to_disk(inverted_dic, name)
+        [file.close() for file in files]
 
-def write_block_to_disk(block, n):
-    filename = str(n) + '.csv'
-    with open(filename, 'w+', encoding='UTF-8', newline='') as open_file:
-        writer = csv.writer(open_file)
-        for x in sorted(block.keys()):
-            fila_a_escribir = []
-            fila_a_escribir.append(x)
-            for poronga in block[x]:
-                fila_a_escribir.append(poronga)
-            writer.writerow(fila_a_escribir)
-    return filename
+    def save_dictionaries(self):
+        terms_id = 'terms_id.csv'
+        docs_id = 'docs_id.csv'
+        with open(terms_id, 'w+', encoding='UTF-8', newline='') as terms_id_file, open(docs_id, 'w+', encoding='UTF-8',
+                                                                                       newline='') as docs_id_file:
 
+            terms_writer = csv.writer(terms_id_file)
+            docs_writer = csv.writer(docs_id_file)
 
-def merge_blocks(blocks, name):
-    inverted_dic = {}
-    files = [open(file, 'r', encoding='UTF-8') for file in blocks]
-    readers = [csv.reader(open_file) for open_file in files]
-    line_processed_per_file = [1] * (len(blocks))
-    next_line_to_process = [2] * (len(blocks))
-    still_processing = True
-    while still_processing:
-        still_processing = False
-        for reader in readers:
-            for row in reader:
-                actual_index = readers.index(reader)
-                if line_processed_per_file[actual_index] <= reader.line_num < next_line_to_process[actual_index]:
-                    inverted_dic.setdefault(int(row[0]), [])
-                    for num in range(1, len(row)):
-                        if int(row[num]) not in inverted_dic[int(row[0])]:
-                            inverted_dic[int(row[0])].append(int(row[num]))
-                    line_processed_per_file[actual_index] += 1
-                    next_line_to_process[actual_index] += 1
-                    still_processing = True
-    write_block_to_disk(inverted_dic, name)
-    [file.close() for file in files]
+            for x in sorted(self.term_termID_dic.keys()):
+                row = []
+                row.append(x)
+                row.append(self.term_termID_dic[x])
+                terms_writer.writerow(row)
+            for x in sorted(self.doc_docID_dic.keys()):
+                row = []
+                row.append(x)
+                row.append(self.doc_docID_dic[x])
+                docs_writer.writerow(row)
 
 
 if __name__ == '__main__':
     index = Indexer()
-    index.BSBI_index_construction(index.get_file_names(),'bsbi_1')
+    index.BSBI_index_construction(index.get_file_names()[1:2], 'bsbi_1:2')
+    index.save_dictionaries()

@@ -1,4 +1,3 @@
-from main.bsbi import create_index
 from main.inverted_index import consultar
 from main.news_collector import NewsCollector
 from main.searcher import Searcher
