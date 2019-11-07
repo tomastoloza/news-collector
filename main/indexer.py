@@ -128,28 +128,25 @@ class Indexer(object):
         docID = len(self.doc_docID_dic)
         termID = len(self.term_termID_dic)
         for section in sections[1]:
-
+            pub_date = 'sin fecha'
             path = sections[0] + '/' + section
-            print(path)
             with open(path, 'r', encoding="utf-8") as open_file:
                 temp_not_inverted_dic.setdefault(docID, [])
                 xml_parsed = fromstring(open_file.read())
                 for item in xml_parsed:
                     try:
-                        words = item.find('title').text + item.find('description').text
+                        title = item.find('title').text
+                        words = title + item.find('description').text
                         pub_date = item.find('pubDate').text
                     except IndexError:
                         words = item.find('title')
-                        pub_date = 'sin fecha'
                     except TypeError:
                         pass
-                    print(section)
-                    medio = re.search('/(.+)/(.+)/(.+)', section).group(3)
-                    section = re.search(r'(.+)\.xml', section).group(1)
-                    section = medio + '-' + section + '-' + words + '-' + pub_date
-
-                    if section not in self.doc_docID_dic.values():
-                        self.doc_docID_dic[docID] = section
+                    medio = re.search('/(.+)/(.+)/(.+)', path).group(2)
+                    section_name = re.search('(.+).xml', section).group(1)
+                    doc_sandwich = medio + '-' + section_name + '-' + title.strip() + '-' + pub_date
+                    if doc_sandwich not in self.doc_docID_dic.values():
+                        self.doc_docID_dic[docID] = doc_sandwich
                     for word in words.split():
                         word = self.acondicionar_palabra(word)
                         if word is not None:
@@ -162,6 +159,7 @@ class Indexer(object):
                                     if self.term_termID_dic[termIDinDIC] == word and termIDinDIC not in \
                                             temp_not_inverted_dic[docID]:
                                         temp_not_inverted_dic[docID].append(termIDinDIC)
+            print(medio, section_name)
             docID = len(self.doc_docID_dic)
         return temp_not_inverted_dic
 
@@ -211,8 +209,8 @@ class Indexer(object):
     def save_dictionaries(self):
         terms_id = 'terms_id.csv'
         docs_id = 'docs_id.csv'
-        with open(terms_id, 'w+', encoding='UTF-8', newline='') as terms_id_file, open(docs_id, 'w+', encoding='UTF-8',
-                                                                                       newline='') as docs_id_file:
+        with open(terms_id, 'w+', encoding='UTF-8', newline='') as terms_id_file, \
+                open(docs_id, 'w+', encoding='UTF-8', newline='') as docs_id_file:
 
             terms_writer = csv.writer(terms_id_file)
             docs_writer = csv.writer(docs_id_file)
@@ -231,5 +229,5 @@ class Indexer(object):
 
 if __name__ == '__main__':
     index = Indexer()
-    index.BSBI_index_construction(index.get_file_names()[1:2], 'bsbi_1:2')
+    index.BSBI_index_construction(index.get_file_names(), 'bsbi_1:2')
     index.save_dictionaries()
