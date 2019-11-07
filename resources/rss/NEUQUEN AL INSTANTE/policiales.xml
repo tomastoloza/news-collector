@@ -1,4 +1,562 @@
-<news><item><title>
+<news>
+    <item>
+        <title>
+
+            Cinco demorados por el robo de la mueblería
+
+        </title>
+
+        <description>
+
+            Tras una serie de allanamientos quedaron a disposición de la justicia y se secuestraron numerosos objetos.
+        </description>
+
+        <pubDate>Fri, 25 Oct 2019 10:00:43 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Robo exprés
+
+        </title>
+
+        <description>
+
+            En cuestión de segundos, dos ladrones se robaron la recaudación y una cartera en un gimnasio.
+        </description>
+
+        <pubDate>Fri, 18 Oct 2019 11:12:52 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Noche violenta en B° Confluencia
+
+        </title>
+
+        <description>
+
+            Continuaron los enfrentamientos entre la policía y los vecinos de las tomas.
+        </description>
+
+        <pubDate>Fri, 18 Oct 2019 08:59:40 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Denunciaron al cantante Axel por abuso sexual
+
+        </title>
+
+        <description>
+
+            Una joven cipoleña acusó penalmente al artista e indicó que el hecho habría ocurrido en el 2017.
+        </description>
+
+        <pubDate>Thu, 17 Oct 2019 11:51:03 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Apresaron al último prófugo de la Comisaría 44
+
+        </title>
+
+        <description>
+
+            Lucas Exequiel Muñoz, el tercer evadido, fue recapturado en un allanamiento.
+        </description>
+
+        <pubDate>Tue, 15 Oct 2019 10:49:51 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Disparos y corridas en un partido de fútbol infantil
+
+        </title>
+
+        <description>
+
+            Los niños hacían un minuto de silencio por la muerte del intendente y al escuchar los tiros salen corriendo.
+            VIDEO.
+        </description>
+
+        <pubDate>Tue, 15 Oct 2019 09:35:48 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Golpe boquetero en el Bajo
+
+        </title>
+
+        <description>
+
+            Se robaron $ 200 mil y tecnología de una mueblería ubicada en Perito Moreno y Río Negro.
+        </description>
+
+        <pubDate>Thu, 10 Oct 2019 12:12:21 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Una travesura peligrosa
+
+        </title>
+
+        <description>
+
+            Le robaron la camioneta al padre, chocaron una moto de la policía, intentaron fugarse y destrozaron otros
+            autos.
+        </description>
+
+        <pubDate>Wed, 09 Oct 2019 11:32:17 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Mató a su pareja de un tiro
+
+        </title>
+
+        <description>
+
+            La mujer, que es policía, habría discutido con el hombre, tomó su arma reglamentaria y le disparó.
+        </description>
+
+        <pubDate>Wed, 09 Oct 2019 10:45:32 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Murió el nene baleado en la vereda de su casa
+
+        </title>
+
+        <description>
+
+            Un nene de 8 años falleció tras recibir un balazo mientras jugaba en la calle.
+        </description>
+
+        <pubDate>Tue, 08 Oct 2019 23:56:22 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Policía baleado en estado irreversible
+
+        </title>
+
+        <description>
+
+            El cabo Fabián Pinochet tiene muerte cerebral según informó la fiscalía.
+        </description>
+
+        <pubDate>Mon, 07 Oct 2019 10:18:48 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Juez en la mira
+
+        </title>
+
+        <description>
+
+            Se tomó licencia el magistrado acusado de acoso sexual y laboral y se fue de Neuquén.
+        </description>
+
+        <pubDate>Fri, 04 Oct 2019 09:50:45 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Misterio por un policía en grave estado
+
+        </title>
+
+        <description>
+
+            Investigan las circunstancias en las que el oficial recibió un disparo en el rostro. ACTUALIZADO 10 hs.
+        </description>
+
+        <pubDate>Fri, 04 Oct 2019 10:04:47 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Peritan dos celulares de Escobar
+
+        </title>
+
+        <description>
+
+            Uno de los teléfonos secuestrados pertenece al único detenido por el brutal crimen será desbloqueado en
+            Buenos Aires.
+        </description>
+
+        <pubDate>Wed, 02 Oct 2019 16:58:54 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            A juicio por abuso sexual agravado
+
+        </title>
+
+        <description>
+
+            Será juzgado ante un tribunal colegiado por someter al hijo de su expareja.
+        </description>
+
+        <pubDate>Mon, 30 Sep 2019 12:14:11 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Capturaron a otro prófugo de la Comisaría 44°
+
+        </title>
+
+        <description>
+
+            Se trata de Claudio Ortega quien cumplía prisión preventiva en una causa por homicidio agravado.
+        </description>
+
+        <pubDate>Fri, 27 Sep 2019 10:36:12 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Un hombre murió apuñalado
+
+        </title>
+
+        <description>
+
+            Fue encontrado asesinado en la vereda. Detuvieron a un hombre que podría ser el culpable.
+        </description>
+
+        <pubDate>Wed, 25 Sep 2019 10:17:14 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Recapturaron a uno de los prófugos de la comisaría 44
+
+        </title>
+
+        <description>
+
+            Se trata de Jonathan Cañeteo quien estuvo fugado durante 54 días.
+        </description>
+
+        <pubDate>Tue, 24 Sep 2019 11:02:10 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Persecución de película
+
+        </title>
+
+        <description>
+
+            Gendarmería Nacional incautó casi 25 kilogramos de marihuana.
+        </description>
+
+        <pubDate>Mon, 23 Sep 2019 14:40:06 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Tragedia en las rutas
+
+        </title>
+
+        <description>
+
+            Un joven motociclista murió al chocar contra un camión.
+        </description>
+
+        <pubDate>Fri, 20 Sep 2019 09:35:50 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Ladrona con guantes
+
+        </title>
+
+        <description>
+
+            Una mujer se hacía pasar por empleada doméstica y se robó más de $ 350.000, joyas y ropa.
+        </description>
+
+        <pubDate>Wed, 30 Oct 2019 10:18:46 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Robaron las canillas del baño del Hospital
+
+        </title>
+
+        <description>
+
+            El curioso hecho ocurrió durante la madrugada del jueves. El autor habría quedado registrado por las cámaras
+            de seguridad.
+        </description>
+
+        <pubDate>Fri, 01 Nov 2019 13:08:17 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Persecución en pleno centro
+
+        </title>
+
+        <description>
+
+            Un detenido intentó huir, golpeó a una mujer en la corrida pero no logró escapar.
+        </description>
+
+        <pubDate>Thu, 31 Oct 2019 11:36:13 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Accidente fatal en Ruta 22
+
+        </title>
+
+        <description>
+
+            Un moticiclista murió al impactar con un auto en la esquina de Av. Plottier.
+        </description>
+
+        <pubDate>Mon, 04 Nov 2019 12:09:41 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Crimen en B° Parque Industrial
+
+        </title>
+
+        <description>
+
+            Un hombre fue asesinado de un tiro en la cabeza en la toma El Tanque.
+        </description>
+
+        <pubDate>Mon, 04 Nov 2019 11:24:48 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Se llevaron hasta la comida de los chicos
+
+        </title>
+
+        <description>
+
+            Ladrones robaron mercadería y carne, entre otras cosas, del CCI "Frutillitas" y no podrán brindar el
+            servicio a los niños.
+        </description>
+
+        <pubDate>Mon, 04 Nov 2019 15:49:24 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Nueve demorados en 16 allanamientos
+
+        </title>
+
+        <description>
+
+            Se secuestraron drogas y un arma casera en operativos en B° Sapere y B° Confluencia.
+        </description>
+
+        <pubDate>Wed, 06 Nov 2019 12:42:23 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Madrugada trágica
+
+        </title>
+
+        <description>
+
+            Perdió el control de su moto, chocó contra un poste y murió.
+        </description>
+
+        <pubDate>Wed, 06 Nov 2019 10:22:11 -0200</pubDate>
+
+    </item>
+    <item>
+        <title>
+
+            Choque y caos de tránsito
+
+        </title>
+
+        <description>
+
+            Un accidente entre una moto y un auto provocó demoras en Av. Olascoaga y Ruta 22.
+        </description>
+
+        <pubDate>Wed, 06 Nov 2019 09:45:36 -0200</pubDate>
+
+    </item>
+<item><title>
+                        
+            Nueve demorados en 16 allanamientos            
+            
+        </title>
+        
+        <description>
+            
+            Se secuestraron drogas y un arma casera en operativos en B° Sapere y B° Confluencia.             
+        </description>
+        
+        <pubDate>Wed, 06 Nov 2019 12:42:23 -0200</pubDate>
+        
+    </item><item><title>
+                        
+            Madrugada trágica            
+            
+        </title>
+        
+        <description>
+            
+            Perdió el control de su moto, chocó contra un poste y murió.            
+        </description>
+        
+        <pubDate>Wed, 06 Nov 2019 10:22:11 -0200</pubDate>
+        
+    </item><item><title>
+                        
+            Choque y caos de tránsito            
+            
+        </title>
+        
+        <description>
+            
+            Un accidente entre una moto y un auto provocó demoras en Av. Olascoaga y Ruta 22.            
+        </description>
+        
+        <pubDate>Wed, 06 Nov 2019 09:45:36 -0200</pubDate>
+        
+    </item><item><title>
+                        
+            Se llevaron hasta la comida de los chicos            
+            
+        </title>
+        
+        <description>
+            
+            Ladrones robaron mercadería y carne, entre otras cosas, del CCI "Frutillitas" y no podrán brindar el servicio a los niños.            
+        </description>
+        
+        <pubDate>Mon, 04 Nov 2019 15:49:24 -0200</pubDate>
+        
+    </item><item><title>
+                        
+            Accidente fatal en Ruta 22            
+            
+        </title>
+        
+        <description>
+            
+            Un moticiclista murió al impactar con un auto en la esquina de Av. Plottier.             
+        </description>
+        
+        <pubDate>Mon, 04 Nov 2019 11:09:41 -0200</pubDate>
+        
+    </item><item><title>
+                        
+            Crimen en B° Parque Industrial            
+            
+        </title>
+        
+        <description>
+            
+            Un hombre fue asesinado de un tiro en la cabeza en la toma El Tanque.             
+        </description>
+        
+        <pubDate>Mon, 04 Nov 2019 10:24:48 -0200</pubDate>
+        
+    </item><item><title>
+                        
+            Robaron las canillas del baño del Hospital            
+            
+        </title>
+        
+        <description>
+            
+            El curioso hecho ocurrió durante la madrugada del jueves. El autor habría quedado registrado por las cámaras de seguridad.            
+        </description>
+        
+        <pubDate>Fri, 01 Nov 2019 13:08:17 -0200</pubDate>
+        
+    </item><item><title>
+                        
+            Persecución en pleno centro            
+            
+        </title>
+        
+        <description>
+            
+            Un detenido intentó huir, golpeó a una mujer en la corrida pero no logró escapar.             
+        </description>
+        
+        <pubDate>Thu, 31 Oct 2019 11:36:13 -0200</pubDate>
+        
+    </item><item><title>
+                        
+            Ladrona con guantes            
+            
+        </title>
+        
+        <description>
+            
+            Una mujer se hacía pasar por empleada doméstica y se robó más de $ 350.000, joyas y ropa.             
+        </description>
+        
+        <pubDate>Wed, 30 Oct 2019 10:18:46 -0200</pubDate>
+        
+    </item><item><title>
                         
             Cinco demorados por el robo de la mueblería            
             
@@ -143,236 +701,28 @@
         
     </item><item><title>
                         
-            Juez en la mira            
+            Robaron $ 680 mil a un distribuidor de pescados            
             
         </title>
         
         <description>
             
-            Se tomó licencia el magistrado acusado de acoso sexual y laboral y se fue de Neuquén.             
+            Ladrones rompieron la cerradura del vehículo con mercadería proveniente de Mar del Plata y se llevaron el efectivo.            
         </description>
         
-        <pubDate>Fri, 04 Oct 2019 09:50:45 -0200</pubDate>
+        <pubDate>Thu, 07 Nov 2019 15:33:35 -0200</pubDate>
         
     </item><item><title>
                         
-            Misterio por un policía en grave estado            
+            Conmoción en Allen            
             
         </title>
         
         <description>
             
-            Investigan las circunstancias en las que el oficial recibió un disparo en el rostro. ACTUALIZADO 10 hs.            
+            Los vecinos no salen del estupor ante un caso de abuso sexual a una bebé de un año y medio.             
         </description>
         
-        <pubDate>Fri, 04 Oct 2019 10:04:47 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Peritan dos celulares de Escobar            
-            
-        </title>
-        
-        <description>
-            
-            Uno de los teléfonos secuestrados pertenece al único detenido por el brutal crimen será desbloqueado en Buenos Aires.            
-        </description>
-        
-        <pubDate>Wed, 02 Oct 2019 16:58:54 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            A juicio por abuso sexual agravado            
-            
-        </title>
-        
-        <description>
-            
-            Será juzgado ante un tribunal colegiado por someter al hijo de su expareja.             
-        </description>
-        
-        <pubDate>Mon, 30 Sep 2019 12:14:11 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Capturaron a otro prófugo de la Comisaría 44°            
-            
-        </title>
-        
-        <description>
-            
-            Se trata de Claudio Ortega quien cumplía prisión preventiva en una causa por homicidio agravado.            
-        </description>
-        
-        <pubDate>Fri, 27 Sep 2019 10:36:12 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Un hombre murió apuñalado            
-            
-        </title>
-        
-        <description>
-            
-            Fue encontrado asesinado en la vereda. Detuvieron a un hombre que podría ser el culpable.             
-        </description>
-        
-        <pubDate>Wed, 25 Sep 2019 10:17:14 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Recapturaron a uno de los prófugos de la comisaría 44            
-            
-        </title>
-        
-        <description>
-            
-            Se trata de Jonathan Cañeteo quien estuvo fugado durante 54 días.             
-        </description>
-        
-        <pubDate>Tue, 24 Sep 2019 11:02:10 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Persecución de película            
-            
-        </title>
-        
-        <description>
-            
-            Gendarmería Nacional incautó casi 25 kilogramos de marihuana.            
-        </description>
-        
-        <pubDate>Mon, 23 Sep 2019 14:40:06 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Tragedia en las rutas            
-            
-        </title>
-        
-        <description>
-            
-            Un joven motociclista murió al chocar contra un camión.             
-        </description>
-        
-        <pubDate>Fri, 20 Sep 2019 09:35:50 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Ladrona con guantes            
-            
-        </title>
-        
-        <description>
-            
-            Una mujer se hacía pasar por empleada doméstica y se robó más de $ 350.000, joyas y ropa.             
-        </description>
-        
-        <pubDate>Wed, 30 Oct 2019 10:18:46 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Robaron las canillas del baño del Hospital            
-            
-        </title>
-        
-        <description>
-            
-            El curioso hecho ocurrió durante la madrugada del jueves. El autor habría quedado registrado por las cámaras de seguridad.            
-        </description>
-        
-        <pubDate>Fri, 01 Nov 2019 13:08:17 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Persecución en pleno centro            
-            
-        </title>
-        
-        <description>
-            
-            Un detenido intentó huir, golpeó a una mujer en la corrida pero no logró escapar.             
-        </description>
-        
-        <pubDate>Thu, 31 Oct 2019 11:36:13 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Accidente fatal en Ruta 22            
-            
-        </title>
-        
-        <description>
-            
-            Un moticiclista murió al impactar con un auto en la esquina de Av. Plottier.             
-        </description>
-        
-        <pubDate>Mon, 04 Nov 2019 12:09:41 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Crimen en B° Parque Industrial            
-            
-        </title>
-        
-        <description>
-            
-            Un hombre fue asesinado de un tiro en la cabeza en la toma El Tanque.             
-        </description>
-        
-        <pubDate>Mon, 04 Nov 2019 11:24:48 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Se llevaron hasta la comida de los chicos            
-            
-        </title>
-        
-        <description>
-            
-            Ladrones robaron mercadería y carne, entre otras cosas, del CCI "Frutillitas" y no podrán brindar el servicio a los niños.            
-        </description>
-        
-        <pubDate>Mon, 04 Nov 2019 15:49:24 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Nueve demorados en 16 allanamientos            
-            
-        </title>
-        
-        <description>
-            
-            Se secuestraron drogas y un arma casera en operativos en B° Sapere y B° Confluencia.             
-        </description>
-        
-        <pubDate>Wed, 06 Nov 2019 12:42:23 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Madrugada trágica            
-            
-        </title>
-        
-        <description>
-            
-            Perdió el control de su moto, chocó contra un poste y murió.            
-        </description>
-        
-        <pubDate>Wed, 06 Nov 2019 10:22:11 -0200</pubDate>
-        
-    </item><item><title>
-                        
-            Choque y caos de tránsito            
-            
-        </title>
-        
-        <description>
-            
-            Un accidente entre una moto y un auto provocó demoras en Av. Olascoaga y Ruta 22.            
-        </description>
-        
-        <pubDate>Wed, 06 Nov 2019 09:45:36 -0200</pubDate>
+        <pubDate>Thu, 07 Nov 2019 11:04:23 -0200</pubDate>
         
     </item></news>
