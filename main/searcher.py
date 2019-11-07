@@ -1,29 +1,36 @@
 import functools
-from main.inverted_index import acondicionar_palabra
+from main.indexer import Indexer
 
 
 class Searcher(object):
 
-    def search(self, words, inverted_index_file):
-        result = []
+    def search(self, words):
+        result = {}
+        term_ids = {}
         for word in words.split():
-            with open('docs_id_dict.csv', 'r') as file:
+            word = Indexer().acondicionar_palabra(word)
+            with open('../resources/dictionaries/terms_id.csv', 'r') as file:
                 for line in file.readlines():
-                    if word in line:
-                        print(word)
+                    if word == line.split(',')[1].strip('\n'):
+                        term_ids.setdefault(line.split(',')[0], list())
+                        term_ids[line.split(',')[0]].append(word)
 
-            # try:
-            #     docs = functools.reduce(lambda x, y: x + ", " + y,
-            #                             [doc for doc in inverted_index_file[acondicionar_palabra(word)]])
-            #     result.append((word, docs))
-            # except KeyError:
-            #     result.append((word, {}))
-            # except TypeError:
-            #     pass
+        for term in term_ids:
+            result.setdefault(term_ids[term][0], list())
+            with open('../resources/dictionaries/bsbi.csv', 'r') as file:
+                line = file.read().split('\n')[int(term)]
+                line = line.strip('\n')
+                term_ids[term].append(line.split(',')[1:])
+
+        with open('../resources/dictionaries/docs_id.csv', 'r') as file:
+            for term in term_ids:
+                word = term_ids[term][0]
+                for line in file.readlines():
+                    for doc in term_ids[term][1]:
+                        if doc == line.split(',')[0].strip('\n'):
+                            result[word].append(functools.reduce(lambda x, y: x + y, line.split(',')[1:]))
         return result
 
 
 if __name__ == '__main__':
-    s = Searcher()
-    b = s.search('ndea')
-    print(b)
+    Searcher().search('macri')

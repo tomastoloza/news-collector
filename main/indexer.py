@@ -102,24 +102,26 @@ class Indexer(object):
             pal = unidecode(pal)
             pal = pal.lower()
             pal = pal.strip(string.punctuation)
+            pal = pal.strip('\n')
             pal = self.stemmer.stem(pal)
             if len(pal) > 3:
                 return pal
 
-    def BSBI_index_construction(self, data, name):
+    def BSBI_index_construction(self, data):
         """Siendo data una tupla con path del diario y una lista de las secciones """
         blocks = []
         n = 0
+        path = '../resources/tmp'
         for diario in data:
             try:
                 block = self.parse_next_block(diario)
             except Exception as e:
-                print(str(e))
+                print(str(e), str(type(e)))
             inverted_block = self.bsbi_invert(block)
-            blockname = self.write_block_to_disk(inverted_block, n)
+            blockname = self.write_block_to_disk(inverted_block, n, path)
             blocks.append(blockname)
             n += 1
-        self.merge_blocks(blocks, name)
+        self.merge_blocks(blocks, path)
         self.save_dictionaries()
 
     def parse_next_block(self, sections):
@@ -131,7 +133,6 @@ class Indexer(object):
             pub_date = 'sin fecha'
             path = sections[0] + '/' + section
             with open(path, 'r', encoding="utf-8") as open_file:
-                temp_not_inverted_dic.setdefault(docID, [])
                 xml_parsed = fromstring(open_file.read())
                 for item in xml_parsed:
                     try:
@@ -144,9 +145,10 @@ class Indexer(object):
                         pass
                     medio = re.search('/(.+)/(.+)/(.+)', path).group(2)
                     section_name = re.search('(.+).xml', section).group(1)
+                    title = title.strip()
+                    title = title.strip('\n')
                     doc_sandwich = medio + '-' + section_name + '-' + title.strip() + '-' + pub_date
-                    if doc_sandwich not in self.doc_docID_dic.values():
-                        self.doc_docID_dic[docID] = doc_sandwich
+                    temp_not_inverted_dic.setdefault(docID, [])
                     for word in words.split():
                         word = self.acondicionar_palabra(word)
                         if word is not None:
@@ -159,6 +161,9 @@ class Indexer(object):
                                     if self.term_termID_dic[termIDinDIC] == word and termIDinDIC not in \
                                             temp_not_inverted_dic[docID]:
                                         temp_not_inverted_dic[docID].append(termIDinDIC)
+                    if doc_sandwich not in self.doc_docID_dic.values():
+                        self.doc_docID_dic[docID] = doc_sandwich
+                        docID += 1
             print(medio, section_name)
             docID = len(self.doc_docID_dic)
         return temp_not_inverted_dic
@@ -171,9 +176,11 @@ class Indexer(object):
                 inverted_dic[y].append(x)
         return inverted_dic
 
-    def write_block_to_disk(self, block, n):
-        filename = str(n) + '.csv'
-        with open(filename, 'w+', encoding='UTF-8', newline='') as open_file:
+    def write_block_to_disk(self, block, name, path):
+        filename = str(name) + '.csv'
+        if not os.path.isdir(path):
+            os.mkdir(path)
+        with open(path + '/' + filename, 'w+', encoding='UTF-8', newline='') as open_file:
             writer = csv.writer(open_file)
             for x in sorted(block.keys()):
                 fila_a_escribir = []
@@ -183,9 +190,9 @@ class Indexer(object):
                 writer.writerow(fila_a_escribir)
         return filename
 
-    def merge_blocks(self, blocks, name):
+    def merge_blocks(self, blocks, path):
         inverted_dic = {}
-        files = [open(file, 'r', encoding='UTF-8') for file in blocks]
+        files = [open(path + '/' + file, 'r', encoding='UTF-8') for file in blocks]
         readers = [csv.reader(open_file) for open_file in files]
         line_processed_per_file = [1] * (len(blocks))
         next_line_to_process = [2] * (len(blocks))
@@ -203,15 +210,19 @@ class Indexer(object):
                         line_processed_per_file[actual_index] += 1
                         next_line_to_process[actual_index] += 1
                         still_processing = True
-        self.write_block_to_disk(inverted_dic, name)
         [file.close() for file in files]
+        [os.remove(path + '/' + file) for file in blocks]
+        os.rmdir('../resources/tmp')
+        self.write_block_to_disk(inverted_dic, 'bsbi', '../resources/dictionaries')
 
     def save_dictionaries(self):
         terms_id = 'terms_id.csv'
         docs_id = 'docs_id.csv'
-        with open(terms_id, 'w+', encoding='UTF-8', newline='') as terms_id_file, \
-                open(docs_id, 'w+', encoding='UTF-8', newline='') as docs_id_file:
-
+        dir = '../resources/dictionaries'
+        if not os.path.isdir(dir):
+            os.mkdir('dir')
+        with open(dir + '/' + terms_id, 'w+', encoding='UTF-8', newline='') as terms_id_file, \
+                open(dir + '/' + docs_id, 'w+', encoding='UTF-8', newline='') as docs_id_file:
             terms_writer = csv.writer(terms_id_file)
             docs_writer = csv.writer(docs_id_file)
 
@@ -229,5 +240,4 @@ class Indexer(object):
 
 if __name__ == '__main__':
     index = Indexer()
-    index.BSBI_index_construction(index.get_file_names(), 'bsbi_1:2')
-    index.save_dictionaries()
+    index.BSBI_index_construction(index.get_file_names()[10:12])

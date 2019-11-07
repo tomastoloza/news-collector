@@ -1,3 +1,5 @@
+import functools
+
 from main.inverted_index import consultar
 from main.news_collector import NewsCollector
 from main.searcher import Searcher
@@ -37,17 +39,18 @@ class Menu(object):
             if user_input == '':
                 exit()
 
-    def search(self, inverted_index):
+    def search(self):
         while True:
             user_input = input("\nIntroduce tu búsqueda (Enter para finalizar):\n>>> ")
             if len(user_input) == 0:
                 break
-            results = self.searcher.search(user_input, inverted_index)
-            for result in results:
-                if len(result[1]) > 0:
-                    print('La palabra ' + result[0] + ' apareció en los documentos: ' + result[1])
-                else:
-                    print('La palabra ' + result[0] + ' no tuvo apariciones')
+            results = self.searcher.search(user_input)
+            if len(results) > 0:
+                for result in results:
+                    print('La palabra ' + result + ' apareció en los documentos:\n' + functools.reduce(
+                        lambda x, y: x  + y, results[result]))
+            else:
+                print('La palabra ' + user_input + ' no tuvo apariciones')
 
 
 if __name__ == '__main__':
