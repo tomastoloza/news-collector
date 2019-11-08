@@ -51,7 +51,6 @@ class NewsCollector(object):
             if open(file_name, 'r').read() != '':
                 xml_parsed = ET.parse(file_name)
                 for x in xml_parsed.getroot():
-                    # TODO: verificacion por fecha
                     if x[0].text == item[0].text:
                         return True
             return False

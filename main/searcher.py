@@ -22,8 +22,8 @@ class Searcher(object):
                 line = line.strip('\n')
                 term_ids[term].append(line.split(',')[1:])
 
-        with open('../resources/dictionaries/docs_id.csv', 'r') as file:
-            for term in term_ids:
+        for term in term_ids:
+            with open('../resources/dictionaries/docs_id.csv', 'r') as file:
                 word = term_ids[term][0]
                 for line in file.readlines():
                     for doc in term_ids[term][1]:
@@ -33,4 +33,5 @@ class Searcher(object):
 
 
 if __name__ == '__main__':
-    Searcher().search('macri')
+    b=Searcher().search('macri fernandez')
+    print(b)

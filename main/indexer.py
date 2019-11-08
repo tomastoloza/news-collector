@@ -236,8 +236,3 @@ class Indexer(object):
                 row.append(x)
                 row.append(self.doc_docID_dic[x])
                 docs_writer.writerow(row)
-
-
-if __name__ == '__main__':
-    index = Indexer()
-    index.BSBI_index_construction(index.get_file_names()[10:12])

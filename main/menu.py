@@ -1,5 +1,6 @@
 import functools
 
+from main.indexer import Indexer
 from main.inverted_index import consultar
 from main.news_collector import NewsCollector
 from main.searcher import Searcher
@@ -8,6 +9,8 @@ from main.searcher import Searcher
 class Menu(object):
     def __init__(self):
         self.searcher = Searcher()
+        self.indexer = Indexer()
+        # self.compressor = Compressor()
 
     def run_menu(self):
         print('Bienvenido al recolector de noticias')
@@ -20,22 +23,14 @@ class Menu(object):
                 for item in rss:
                     print('Diario: {} Sección: {} URL: {}\n'.format(item[0][0], item[0][1], item[1]))
             if user_input == '2':
-                menu = 'Seleccione:\n1. Crear un índice invertido a partir de la estructura de directorio y archivos xml\n2. Guardar en disco todo el índice invertido.\n3. Cargar en memoria un índice invertido previamente salvado.\n'
-                user_input = input(menu)
-                if user_input == '1':
-                    pass
-                if user_input == '2':
-                    pass
-                if user_input == '3':
-                    pass
-                if user_input == '4':
-                    pass
-                if user_input == '':
-                    exit()
-            if user_input == '3':
-                pass
+                print('Construyendo indice invertido en disco')
+                self.indexer.BSBI_index_construction(self.indexer.get_file_names())
+                print('Finalizado. Ver resultados en /resources/dictionaries')
+            # if user_input == '3':
+                # self.compressor.comprimir_indice()
             if user_input == '4':
                 self.search()
+                continue
             if user_input == '':
                 exit()
 
@@ -45,12 +40,10 @@ class Menu(object):
             if len(user_input) == 0:
                 break
             results = self.searcher.search(user_input)
-            if len(results) > 0:
-                for result in results:
-                    print('La palabra ' + result + ' apareció en los documentos:\n' + functools.reduce(
-                        lambda x, y: x  + y, results[result]))
-            else:
-                print('La palabra ' + user_input + ' no tuvo apariciones')
+            for re in results:
+                print('Resultados de ' + re + ':')
+                for item in results[re]:
+                    print(item, '\n')
 
 
 if __name__ == '__main__':
