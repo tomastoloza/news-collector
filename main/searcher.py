@@ -30,8 +30,3 @@ class Searcher(object):
                         if doc == line.split(',')[0].strip('\n'):
                             result[word].append(functools.reduce(lambda x, y: x + y, line.split(',')[1:]))
         return result
-
-
-if __name__ == '__main__':
-    b=Searcher().search('macri fernandez')
-    print(b)
