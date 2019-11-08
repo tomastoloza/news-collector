@@ -104,4 +104,7 @@ venv.bak/
 .mypy_cache/
 .idea/*
 
-main/BSBI TESTING
+tmp/
+resources/tmp/
+tmp
+resources/tmp
