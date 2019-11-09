@@ -12,12 +12,13 @@ class Compressor:
         decoded_postings_list.frombytes(encoded_postings_list)
         return decoded_postings_list.tolist()
 
-    def comprimir_indice(self, inverted_index):
+    def comprimir_indice(self, inverted_index, file_name):
         big_byte_string = b''
         byte_inverted_index = {}
         with open(inverted_index, 'r', encoding='UTF-8') as open_file:
             reader = csv.reader(open_file)
             for row in reader:
+                print(row)
                 int_row = []
                 for value in row:
                     int_row.append(int(value))
@@ -30,7 +31,7 @@ class Compressor:
                 byte_inverted_index[term[0]] = (start_position, quantity_of_docs, size_of_docs)
                 for doc in docs:
                     big_byte_string += self.encode([doc])
-        with open('compressed_inverted_index.csv', 'w+', encoding='UTF-8', newline='') as open_file:
+        with open('../resources/dictionaries/' + file_name + '.csv', 'w+', encoding='UTF-8', newline='') as open_file:
             writer = csv.writer(open_file)
             for x in byte_inverted_index.keys():
                 fila_a_escribir = []
@@ -38,10 +39,10 @@ class Compressor:
                 for value in byte_inverted_index[x]:
                     fila_a_escribir.append(value)
                 writer.writerow(fila_a_escribir)
-        with open('byte_string.txt', 'wb+') as open_file:
+        with open('../resources/dictionaries/byte_string.txt', 'wb+') as open_file:
             open_file.write(big_byte_string)
 
-    def comprimir_indice_con_saltos(self, inverted_index):
+    def comprimir_indice_con_saltos(self, inverted_index, file_name):
         big_byte_string = b''
         byte_inverted_index = {}
         with open(inverted_index, 'r', encoding='UTF-8') as open_file:
@@ -63,11 +64,9 @@ class Compressor:
                 for doc in docs:
                     jump = doc - previous_doc
                     previous_doc = doc
-                    if jump == 0:
-                        pass
-                    else:
+                    if jump != 0:
                         big_byte_string += self.encode([jump])
-        with open('compressed_inverted_index_with_jumps.csv', 'w+', encoding='UTF-8', newline='') as open_file:
+        with open("../resources/dictionaries/" + file_name + '.csv', 'w+', encoding='UTF-8', newline='') as open_file:
             writer = csv.writer(open_file)
             for x in byte_inverted_index.keys():
                 fila_a_escribir = []
@@ -75,7 +74,7 @@ class Compressor:
                 for value in byte_inverted_index[x]:
                     fila_a_escribir.append(value)
                 writer.writerow(fila_a_escribir)
-        with open('byte_string_with_jumps.txt', 'wb+') as open_file:
+        with open('../resources/dictionaries/byte_string_jumps.txt', 'wb+') as open_file:
             open_file.write(big_byte_string)
 
     def search_termID_appearances_in_compressed_dic(self, term_id):
@@ -134,4 +133,3 @@ class Compressor:
             final_result.append(summatory)
             previous = summatory
         return final_result
-
