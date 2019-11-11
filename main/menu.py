@@ -13,7 +13,7 @@ class Menu(object):
     def run_menu(self):
         print('Bienvenido al recolector de noticias')
         while True:
-            menu = 'Seleccione: \n1. Recolectar noticias\n2. Crear indice invertido\n3. Comprimir lista de apariciones\n4. Realizar busquedas\n'
+            menu = 'Seleccione: \n1. Recolectar noticias\n2. Crear indice invertido\n3. Comprimir lista de apariciones\n4. Realizar busquedas\nPresione \'ENTER\' para salir'
             user_input = input(menu)
             if user_input == '1':
                 rss = NewsCollector().iterate_rss()

@@ -1,6 +1,6 @@
 import configparser
 import os
-from urllib import request
+from requests import request
 from xml.etree import ElementTree
 from xml.etree.ElementTree import ElementTree, fromstring, Element
 import xml.etree.ElementTree as ET
@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 class NewsCollector(object):
     def __init__(self):
         self.parser = configparser.ConfigParser()
-        self.parser.read("../config.ini")
+        self.parser.read("../config.ini", encoding='utf-8')
 
     def get_rss_urls(self):
         rss_list = []
@@ -24,10 +24,10 @@ class NewsCollector(object):
         print('Diario: {} Sección: {} URL: {}'.format(rss[0], rss[1], rss[2]))
         file_name = "../resources/rss/" + rss[0] + "/" + rss[1] + ".xml"
         header = {
-            'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36"}
-        req = request.Request(url=rss[2], headers=header)
-        result = request.urlopen(req)
-        element = fromstring(result.read())
+            'User-Agent': "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"}
+        proxies_dict = {'http': 'http: // 10.10.10.10: 8000', 'https': 'http: // 10.10.10.10: 8000', }
+        result = request('get', rss[2], proxies=[])
+        element = fromstring(result.text.strip())
         try:
             xml_parsed = ET.parse(file_name)
         except FileNotFoundError:
@@ -35,7 +35,7 @@ class NewsCollector(object):
             xml_parsed = ElementTree(root)
             if not os.path.isdir('../resources/rss/' + rss[0]):
                 os.makedirs("../resources/rss/" + rss[0])
-            open(file_name, 'w+')
+            open(file_name, 'w+', encoding='utf-8')
 
         for item in element.findall(".//item"):
             news_item = Element("item")
@@ -48,7 +48,7 @@ class NewsCollector(object):
 
     def find_item(self, item, file_name):
         try:
-            if open(file_name, 'r').read() != '':
+            if open(file_name, 'r', encoding='utf-8').read() != '':
                 xml_parsed = ET.parse(file_name)
                 for x in xml_parsed.getroot():
                     if x[0].text == item[0].text:
@@ -67,7 +67,3 @@ class NewsCollector(object):
                 failed_rss.append((rss, str(e)))
         return failed_rss
 
-
-if __name__ == '__main__':
-    nc = NewsCollector()
-    nc.iterate_rss()
